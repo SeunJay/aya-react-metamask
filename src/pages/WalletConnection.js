@@ -7,11 +7,20 @@ import { connectorsByName } from "../utils/hash";
 import { useEagerConnect } from "../hooks/useEagerConnect";
 import { useInactiveListener } from "../hooks/useInactiveListener";
 import Spinner from "../components/Spinner";
+// import { getErrorMessage } from "../utils/web3ErrorHandling";
 
 const WalletConnection = () => {
   const context = useWeb3React();
-  const { connector, library, chainId, account, activate, active, error } =
-    context;
+  const {
+    connector,
+    library,
+    chainId,
+    account,
+    activate,
+    deactivate,
+    active,
+    error,
+  } = context;
 
   //   console.log("library ", library);
 
@@ -162,7 +171,7 @@ const WalletConnection = () => {
         style={{
           display: "grid",
           gridGap: "1rem",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "1fr",
           maxWidth: "20rem",
           margin: "auto",
         }}
@@ -223,6 +232,36 @@ const WalletConnection = () => {
             </button>
           );
         })}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {(active || error) && (
+          <button
+            style={{
+              height: "3rem",
+              marginTop: "2rem",
+              borderRadius: "1rem",
+              borderColor: "red",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              deactivate();
+            }}
+          >
+            Deactivate
+          </button>
+        )}
+
+        {/* {!!error && (
+          <h4 style={{ marginTop: "1rem", marginBottom: "0" }}>
+            {getErrorMessage(error)}
+          </h4>
+        )} */}
       </div>
     </div>
   );
